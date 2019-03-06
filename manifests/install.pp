@@ -7,7 +7,9 @@
 # === Copyright
 # Copyright 2103 Ronald Valente
 #
-class avamar::install inherits avamar::params {
+class avamar::install (
+  $_provider = $avamar::params::provider
+) inherits avamar::params {
 
   if($avamar::params::local_dir == undef){
     include ::wget
@@ -27,7 +29,7 @@ class avamar::install inherits avamar::params {
 
     package { $avamar::params::pkg_name:
       ensure   => installed,
-      provider => $avamar::params::provider,
+      provider => $_provider,
       source   => "${avamar::params::pkg_dir}/${avamar::params::pkg}",
       require  => Wget::Fetch['avamar_pkg'],
     }
